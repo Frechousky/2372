@@ -5,8 +5,8 @@ import os
 import re
 import sys
 
-I18N_DIR = os.path.join('..', 'assets', 'i18n')
-SRC_DIR = os.path.join('..', 'src')
+I18N_DIR = os.path.join('assets', 'i18n')
+SRC_DIR = os.path.join('src')
 
 
 def parse_json_files(i18n_dir: str):
