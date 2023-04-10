@@ -15,6 +15,7 @@ class Game:
         pygame.init()
         pygame.mouse.set_visible(0)
         self._screen = pygame.display.set_mode(WINDOW_SIZE)
+        pygame.display.set_caption('2372')
         self._scene_queue = queue.Queue()
         self._scene = LocaleSelectionScene(self._scene_queue)
         self._clock = pygame.time.Clock()
