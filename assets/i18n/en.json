@@ -1,5 +1,6 @@
 {
     "en": {
-        "new_game": "New game"
+        "new_game": "New game",
+        "test-ci": "should fail"
     }
 }
