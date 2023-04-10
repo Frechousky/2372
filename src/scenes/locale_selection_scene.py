@@ -1,13 +1,11 @@
-import os
 import queue
 from typing import List
 
-import i18n
 import pygame
+from menu_scene import MenuScene
 
 from core import InputHandler, Renderer, Scene
 from graphics import load_image
-from menu_scene import MenuScene
 from settings import LOCALES, WINDOW_SIZE, init_i18n
 
 

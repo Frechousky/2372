@@ -3,7 +3,7 @@ import queue
 
 import pygame
 
-from locale_selection_scene import LocaleSelectionScene
+from scenes.locale_selection_scene import LocaleSelectionScene
 from settings import FPS, LOGS_FILE, WINDOW_SIZE
 
 
