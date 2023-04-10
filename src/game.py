@@ -14,7 +14,7 @@ class Game:
                             datefmt='%Y-%m-%d %H:%M:%S', style='{')
         pygame.init()
         pygame.mouse.set_visible(0)
-        self._screen = pygame.surface.Surface(WINDOW_SIZE)
+        self._screen = pygame.display.set_mode(WINDOW_SIZE)
         self._scene_queue = queue.Queue()
         self._scene = LocaleSelectionScene(self._scene_queue)
         self._clock = pygame.time.Clock()
