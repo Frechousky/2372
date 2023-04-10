@@ -14,10 +14,12 @@ ROOT_DIR = os.getcwd()
 FONTS_DIR = os.path.join(ROOT_DIR, 'assets', 'fonts')
 I18N_DIR = os.path.join(ROOT_DIR, 'assets', 'i18n')
 IMAGES_DIR = os.path.join(ROOT_DIR, 'assets', 'images')
+SOUNDS_DIR = os.path.join(ROOT_DIR, 'assets', 'sounds')
 
 # files
 LOGS_FILE = os.path.join(ROOT_DIR, 'logs.log')
 BLANKA_FONT = os.path.join(FONTS_DIR, 'blanka', 'Blanka.otf')
+CLICK_SOUND = os.path.join(SOUNDS_DIR, 'click.wav')
 
 
 def init_i18n(locale: str):
