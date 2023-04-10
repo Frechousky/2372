@@ -1,10 +1,11 @@
----
+name: check-i18n-keys
+on: [push]
 jobs:
   check-i18n-keys:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11' 
       - run: ./scripts/check_i18n_keys.py
-name: check-i18n-keys
-'on': [push]
-run-name: ${{ github.actor }}@check-i18n-keys

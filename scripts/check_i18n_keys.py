@@ -1,4 +1,10 @@
 #!/usr/bin/env python
+"""
+checks that:
+    - all i18n JSON files contain the same keys
+    - all i18n keys from JSON files are used in source file
+    - all i18n keys used in source files are present in JSON files
+"""
 import glob
 import json
 import os
