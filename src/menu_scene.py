@@ -18,22 +18,12 @@ class StartMenuEntrySprite(pygame.sprite.Sprite):
         self.rect = self.image.get_rect()
 
 
-class CursorSprite(pygame.sprite.Sprite):
-
-    def __init__(self, *groups: List[pygame.sprite.Group]) -> None:
-        super().__init__(*groups)
-        self.image = pygame.surface.Surface((50, 50))
-        self.image.fill((0, 0, 255))
-        self.rect = self.image.get_rect()
-
-
 class MenuSceneModel:
 
     def __init__(self) -> None:
         self.cursor_pos = 0
         self.menu_entries = pygame.sprite.Group()
         StartMenuEntrySprite(self.menu_entries)
-        self.cursor = CursorSprite()
 
 
 class MenuSceneInputHandler(InputHandler):
@@ -58,7 +48,6 @@ class MenuSceneRenderer(Renderer):
     def render(self, screen: pygame.surface.Surface) -> None:
         screen.fill((0, 0, 0))
         self._model.menu_entries.draw(screen)
-        screen.blit(self._model.cursor.image, self._model.cursor.rect)
         pygame.display.update()
 
 
