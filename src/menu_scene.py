@@ -58,8 +58,7 @@ class MenuSceneUpdater(Updater):
         self._model = model
 
     def update(self, fps: int) -> None:
-        self._model.cursor.rect.topleft = (
-            (self._model.cursor_pos + 1) * 100, 600)
+        pass
 
 
 class MenuScene(Scene):
