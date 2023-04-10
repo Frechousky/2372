@@ -2,10 +2,10 @@ import queue
 from typing import List
 
 import pygame
-from menu_scene import MenuScene
 
 from core import InputHandler, Renderer, Scene
 from graphics import load_image
+from scenes.menu_scene import MenuScene
 from settings import LOCALES, WINDOW_SIZE, init_i18n
 
 
