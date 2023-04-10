@@ -23,9 +23,8 @@ class LocaleSelectionSceneModel:
 
     def __init__(self) -> None:
         self.cursor_pos = 0
-        self.flags = pygame.sprite.Group()
-        for locale in LOCALES:
-            FlagSprite(f'flag_{locale}.png', self.flags)
+        self.flags = pygame.sprite.Group(
+            [FlagSprite(f'flag_{locale}.png') for locale in LOCALES])
 
 
 class LocaleSelectionInputHandler(InputHandler):

@@ -22,8 +22,7 @@ class MenuSceneModel:
 
     def __init__(self) -> None:
         self.cursor_pos = 0
-        self.menu_entries = pygame.sprite.Group()
-        StartMenuEntrySprite(self.menu_entries)
+        self.menu_entries = pygame.sprite.Group(StartMenuEntrySprite())
 
 
 class MenuSceneInputHandler(InputHandler):
