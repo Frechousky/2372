@@ -2,6 +2,8 @@ import os
 
 import i18n
 
+GAME_NAME = "2372"
+
 # display
 WINDOW_SIZE = (1920, 1080)
 FPS = 60
