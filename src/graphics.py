@@ -31,7 +31,9 @@ def load_sound(filename: str) -> pygame.mixer.Sound:
 
 
 class Sprite(pygame.sprite.Sprite):
-    def __init__(self, imagepath: str, *groups: List[pygame.sprite.Group]) -> None:
+    def __init__(
+        self, image: pygame.Surface, *groups: List[pygame.sprite.Group]
+    ) -> None:
         super().__init__(*groups)
-        self.image = load_image(imagepath)
+        self.image = image
         self.rect = self.image.get_rect()

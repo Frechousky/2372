@@ -4,7 +4,7 @@ from typing import List
 import pygame
 
 from core import InputHandler, Renderer, Scene
-from graphics import Sprite
+from graphics import Sprite, load_image
 from scenes.menu_scene import MenuScene
 from settings import WINDOW_SIZE, init_i18n
 
@@ -59,7 +59,7 @@ class LocaleSelectionRenderer(Renderer):
     def __init__(self, model: LocaleSelectionSceneModel) -> None:
         self._model = model
         self._flags = pygame.sprite.Group(
-            [Sprite(f"flag_{locale}.png") for locale in self._model.locales]
+            [Sprite(load_image(f"flag_{locale}.png")) for locale in self._model.locales]
         )
         # update flags position
         for i, fs in enumerate(self._flags):
