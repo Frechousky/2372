@@ -37,3 +37,17 @@ class Sprite(pygame.sprite.Sprite):
         super().__init__(*groups)
         self.image = image
         self.rect = self.image.get_rect()
+
+
+class FontSprite(Sprite):
+    def __init__(
+        self,
+        text: str,
+        font_name: str,
+        font_size: int,
+        color: pygame.Color,
+        *groups: List[pygame.sprite.Group],
+    ) -> None:
+        font = load_font(font_name, font_size)
+        image = font.render(text, True, color)
+        super().__init__(image, *groups)
