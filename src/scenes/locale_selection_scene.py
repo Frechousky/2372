@@ -33,10 +33,10 @@ class LocaleSelectionInputHandler(InputHandler):
         return self._key_down_callbacks
 
     def _decrement_cursor_pos(self, *args, **kwargs):
-        self._model.decrement_cursor()
+        self._model.decrement_cursor_pos()
 
     def _increment_cursor_pos(self, *args, **kwargs):
-        self._model.increment_cursor()
+        self._model.increment_cursor_pos()
 
     def _select_locale(self, *args, **kwargs):
         init_i18n(self._model.selected)
