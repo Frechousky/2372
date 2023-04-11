@@ -20,8 +20,8 @@ SOUNDS_DIR = os.path.join(ROOT_DIR, "assets", "sounds")
 
 # files
 LOGS_FILE = os.path.join(ROOT_DIR, "logs.log")
-BLANKA_FONT = os.path.join(FONTS_DIR, "blanka", "Blanka.otf")
-CLICK_SOUND = os.path.join(SOUNDS_DIR, "click.wav")
+BLANKA_FONT = os.path.join("blanka", "Blanka.otf")
+CLICK_SOUND = "click.wav"
 
 
 def init_i18n(locale: str):
