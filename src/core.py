@@ -1,3 +1,6 @@
+from ast import Tuple
+from typing import Any, List
+
 import pygame
 
 
@@ -56,3 +59,34 @@ class Scene:
 
     def update(self, fps: int) -> None:
         pass
+
+
+class SelectionViewModel:
+    """view model for selection with cursor screen"""
+
+    def __init__(self, collection: List[Any] | Tuple[Any], cursor_pos=0) -> None:
+        self._collection = (
+            collection if isinstance(collection, tuple.__class__) else tuple(collection)
+        )
+        # make sure cursor is in range [0, len(collections)[
+        self._cursor_pos = max(0, min(cursor_pos, len(collection) - 1))
+
+    @property
+    def collection(self) -> Tuple[Any]:
+        return self._collection
+
+    @property
+    def cursor_pos(self) -> int:
+        return self._cursor_pos
+
+    @property
+    def selected(self) -> Any:
+        return self._collection[self._cursor_pos]
+
+    def decrement_cursor_pos(self) -> None:
+        self._cursor_pos -= 1
+        self._cursor_pos = self._cursor_pos % len(self._collection)
+
+    def increment_cursor_pos(self) -> None:
+        self._cursor_pos += 1
+        self._cursor_pos = self._cursor_pos % len(self._collection)

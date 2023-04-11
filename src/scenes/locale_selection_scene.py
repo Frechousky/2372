@@ -1,30 +1,18 @@
 import queue
+from ast import Tuple
 from typing import List
 
 import pygame
 
-from core import InputHandler, Renderer, Scene
+from core import InputHandler, Renderer, Scene, SelectionViewModel
 from graphics import Sprite, load_image
 from scenes.menu_scene import MenuScene
 from settings import WINDOW_SIZE, init_i18n
 
 
-class LocaleSelectionSceneModel:
-    def __init__(self, locales: List[str], selection_cursor_pos=0) -> None:
-        self._locales = locales
-        self._selection_cursor_pos = max(0, min(selection_cursor_pos, len(locales) - 1))
-
-    @property
-    def locales(self):
-        return self._locales
-
-    def decrement_cursor_pos(self):
-        self._selection_cursor_pos -= 1
-        self._selection_cursor_pos = self._selection_cursor_pos % len(self._locales)
-
-    def increment_cursor_pos(self):
-        self._selection_cursor_pos += 1
-        self._selection_cursor_pos = self._selection_cursor_pos % len(self._locales)
+class LocaleSelectionSceneModel(SelectionViewModel):
+    def __init__(self, collection: List | Tuple, cursor_pos=0) -> None:
+        super().__init__(collection, cursor_pos)
 
 
 class LocaleSelectionInputHandler(InputHandler):
@@ -45,13 +33,13 @@ class LocaleSelectionInputHandler(InputHandler):
         return self._key_down_callbacks
 
     def _decrement_cursor_pos(self, *args, **kwargs):
-        self._model.decrement_cursor_pos()
+        self._model.decrement_cursor()
 
     def _increment_cursor_pos(self, *args, **kwargs):
-        self._model.increment_cursor_pos()
+        self._model.increment_cursor()
 
     def _select_locale(self, *args, **kwargs):
-        init_i18n(self._model.locales[self._model._selection_cursor_pos])
+        init_i18n(self._model.selected)
         self._scene_queue.put(MenuScene(scene_queue=self._scene_queue))
 
 
@@ -59,13 +47,16 @@ class LocaleSelectionRenderer(Renderer):
     def __init__(self, model: LocaleSelectionSceneModel) -> None:
         self._model = model
         self._flags = pygame.sprite.Group(
-            [Sprite(load_image(f"flag_{locale}.png")) for locale in self._model.locales]
+            [
+                Sprite(load_image(f"flag_{locale}.png"))
+                for locale in self._model.collection
+            ]
         )
         # update flags position
         for i, fs in enumerate(self._flags):
-            v_offset = (WINDOW_SIZE[0] - len(self._model.locales) * fs.rect.width) / (
-                len(self._model.locales) + 1
-            )
+            v_offset = (
+                WINDOW_SIZE[0] - len(self._model.collection) * fs.rect.width
+            ) / (len(self._model.collection) + 1)
             fs.rect.left = v_offset * (i + 1) + fs.rect.width * i
             fs.rect.top = (WINDOW_SIZE[1] - fs.rect.height) / 2
 
@@ -76,7 +67,7 @@ class LocaleSelectionRenderer(Renderer):
         pygame.display.update()
 
     def _draw_selection_cursor(self, screen: pygame.surface.Surface) -> None:
-        fs = self._flags.sprites()[self._model._selection_cursor_pos]
+        fs = self._flags.sprites()[self._model.cursor_pos]
         width = WINDOW_SIZE[0] // 400
         offset = WINDOW_SIZE[0] // 150
         rect = pygame.rect.Rect(
@@ -90,7 +81,7 @@ class LocaleSelectionRenderer(Renderer):
 
 class LocaleSelectionScene(Scene):
     def __init__(self, locales: List[str], scene_queue: queue.Queue) -> None:
-        self._model = LocaleSelectionSceneModel(locales=locales)
+        self._model = LocaleSelectionSceneModel(collection=locales)
         self._input_handler = LocaleSelectionInputHandler(
             model=self._model, scene_queue=scene_queue
         )
