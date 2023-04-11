@@ -1,0 +1,11 @@
+on: [push]
+jobs:
+  run-tests:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v3
+      - uses: actions/setup-python@v4
+        with:
+          python-version: '3.11'
+      - run: /usr/bin/env python3.11 -m pip install --upgrade -r requirements.txt
+      - run: pytest
