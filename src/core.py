@@ -1,5 +1,4 @@
-from ast import Tuple
-from typing import Any, List
+from typing import Any, List, Tuple
 
 import pygame
 
