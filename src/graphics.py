@@ -1,6 +1,7 @@
 import functools
 import logging
 import os
+from typing import List
 
 import pygame
 
@@ -27,3 +28,10 @@ def load_sound(filename: str) -> pygame.mixer.Sound:
     fullpath = os.path.join(SOUNDS_DIR, filename)
     logging.info(f"Load sound '{fullpath}'")
     return pygame.mixer.Sound(fullpath)
+
+
+class Sprite(pygame.sprite.Sprite):
+    def __init__(self, imagepath: str, *groups: List[pygame.sprite.Group]) -> None:
+        super().__init__(*groups)
+        self.image = load_image(imagepath)
+        self.rect = self.image.get_rect()
