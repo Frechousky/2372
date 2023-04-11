@@ -14,11 +14,10 @@ def init_pygamemixer():
 
 def test_load_existing_sound(init_pygamemixer):
     f = load_sound(CLICK_SOUND)
-    assert f is not None, 'font is not None'
-    assert isinstance(
-        f, pygame.mixer.Sound), 'font is pygame.mixer.Sound'
+    assert f is not None, "font is not None"
+    assert isinstance(f, pygame.mixer.Sound), "font is pygame.mixer.Sound"
 
 
 def test_load_non_existing_sound(init_pygamemixer):
     with pytest.raises(FileNotFoundError):
-        load_sound('thisisnotasound.wav')
+        load_sound("thisisnotasound.wav")

@@ -10,23 +10,20 @@ from settings import BLANKA_FONT
 
 
 class StartMenuEntrySprite(pygame.sprite.Sprite):
-
     def __init__(self, *groups: List[pygame.sprite.Group]) -> None:
         super().__init__(*groups)
         font = load_font(BLANKA_FONT, 50)
-        self.image = font.render(i18n.t('new_game'), False, (255, 255, 255))
+        self.image = font.render(i18n.t("new_game"), False, (255, 255, 255))
         self.rect = self.image.get_rect()
 
 
 class MenuSceneModel:
-
     def __init__(self) -> None:
         self.cursor_pos = 0
         self.menu_entries = pygame.sprite.Group(StartMenuEntrySprite())
 
 
 class MenuSceneInputHandler(InputHandler):
-
     def __init__(self, model: MenuSceneModel) -> None:
         super().__init__()
         self._model = model
@@ -39,7 +36,6 @@ class MenuSceneInputHandler(InputHandler):
 
 
 class MenuSceneRenderer(Renderer):
-
     def __init__(self, model: MenuSceneModel) -> None:
         super().__init__()
         self._model = model
@@ -51,7 +47,6 @@ class MenuSceneRenderer(Renderer):
 
 
 class MenuSceneUpdater(Updater):
-
     def __init__(self, model: MenuSceneModel) -> None:
         super().__init__()
         self._model = model
@@ -61,7 +56,6 @@ class MenuSceneUpdater(Updater):
 
 
 class MenuScene(Scene):
-
     def __init__(self, scene_queue: queue.Queue) -> None:
         super().__init__()
         self._model = MenuSceneModel()
