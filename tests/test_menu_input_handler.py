@@ -19,10 +19,11 @@ def tested() -> MenuInputHandler:
 
 
 @pytest.mark.parametrize("key", [pygame.K_RETURN, pygame.K_KP_ENTER])
-def test_on_enter_input_post_to_scene_queue(mocker, tested: MenuInputHandler, key: int):
+def test_on_enter_input_posts_to_scene_queue(
+    mocker, tested: MenuInputHandler, key: int
+):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": key})]
     mocker.patch("pygame.event.get", return_value=mock_ret)
-    mocker.patch("scenes.menu_scene.LevelScene")
 
     assert tested._scene_queue.empty(), "scene_queue is empty"
 

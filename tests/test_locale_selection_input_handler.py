@@ -19,7 +19,7 @@ def tested() -> LocaleSelectionInputHandler:
     )
 
 
-def test_on_left_arrow_input_decrement_cursor_pos(
+def test_on_left_arrow_input_decrements_cursor_pos(
     mocker, tested: LocaleSelectionInputHandler
 ):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": pygame.K_LEFT})]
@@ -36,7 +36,7 @@ def test_on_left_arrow_input_decrement_cursor_pos(
     ), "cursor_pos value is updated"
 
 
-def test_on_right_arrow_input_increment_cursor_pos(
+def test_on_right_arrow_input_increments_cursor_pos(
     mocker, tested: LocaleSelectionInputHandler
 ):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": pygame.K_RIGHT})]
@@ -54,7 +54,7 @@ def test_on_right_arrow_input_increment_cursor_pos(
 
 
 @pytest.mark.parametrize("key", [pygame.K_RETURN, pygame.K_KP_ENTER])
-def test_on_enter_input_init_i18n(
+def test_on_enter_input_inits_i18n(
     mocker, tested: LocaleSelectionInputHandler, key: int
 ):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": key})]
@@ -74,12 +74,14 @@ def test_on_enter_input_init_i18n(
 
 
 @pytest.mark.parametrize("key", [pygame.K_RETURN, pygame.K_KP_ENTER])
-def test_on_enter_input_post_to_scene_queue(
+def test_on_enter_input_posts_to_scene_queue(
     mocker, tested: LocaleSelectionInputHandler, key: int
 ):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": key})]
     mocker.patch("pygame.event.get", return_value=mock_ret)
-    mocker.patch("scenes.locale_selection_scene.MenuScene")
+    mocker.patch(
+        "scenes.locale_selection_scene.MenuScene"
+    )  # mock MenuScene creation because it requires pygame init
 
     assert tested._scene_queue.empty(), "scene_queue is empty"
 
