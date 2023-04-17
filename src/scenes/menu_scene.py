@@ -1,5 +1,4 @@
 import queue
-from typing import List, Tuple
 
 import i18n
 import pygame

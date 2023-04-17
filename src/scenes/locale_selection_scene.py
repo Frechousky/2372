@@ -1,5 +1,4 @@
 import queue
-from ast import Tuple
 from typing import List
 
 import pygame
@@ -33,6 +32,7 @@ class LocaleSelectionInputHandler(InputHandler):
 
     def _select_locale(self, *args, **kwargs):
         init_i18n(self._model.selected)
+        # update game scene to menu scene
         self._scene_queue.put(MenuScene(scene_queue=self._scene_queue))
 
 
