@@ -5,6 +5,7 @@ import pygame
 
 from core import InputHandler, Renderer, Scene, SelectionViewModel
 from graphics import FontSprite
+from scenes.level_scene import LevelScene
 from settings import BLANKA_FONT, GAME_NAME, WINDOW_SIZE
 
 
@@ -14,12 +15,17 @@ class MenuInputHandler(InputHandler):
         self._model = model
         self._scene_queue = scene_queue
         self._key_down_callbacks = {
+            pygame.K_KP_ENTER: self._select_menu,
+            pygame.K_RETURN: self._select_menu,
         }
 
     @property
     def key_down_callbacks(self) -> dict:
         return self._key_down_callbacks
 
+    def _select_menu(self, *args, **kwargs):
+        # update game scene to level scene
+        self._scene_queue.put(LevelScene())
 
 
 class MenuRenderer(Renderer):
