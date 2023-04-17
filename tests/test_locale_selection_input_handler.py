@@ -85,4 +85,4 @@ def test_on_enter_input_post_to_scene_queue(
 
     tested.handle_inputs()
 
-    assert not tested._scene_queue.empty(), "scene_queue is not be empty"
+    assert not tested._scene_queue.empty(), "scene_queue is not empty"
