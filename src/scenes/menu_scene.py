@@ -9,19 +9,22 @@ from graphics import FontSprite
 from settings import BLANKA_FONT, GAME_NAME, WINDOW_SIZE
 
 
-class MenuSceneModel(SelectionViewModel):
-    def __init__(self, collection: List | Tuple, cursor_pos=0) -> None:
-        super().__init__(collection, cursor_pos)
-
-
 class MenuSceneInputHandler(InputHandler):
-    def __init__(self, model: MenuSceneModel) -> None:
+    def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue) -> None:
         super().__init__()
         self._model = model
+        self._scene_queue = scene_queue
+        self._key_down_callbacks = {
+        }
+
+    @property
+    def key_down_callbacks(self) -> dict:
+        return self._key_down_callbacks
+
 
 
 class MenuSceneRenderer(Renderer):
-    def __init__(self, model: MenuSceneModel) -> None:
+    def __init__(self, model: SelectionViewModel) -> None:
         super().__init__()
         self._model = model
         self._banner_sprite = FontSprite(
@@ -61,10 +64,9 @@ class MenuSceneRenderer(Renderer):
 class MenuScene(Scene):
     def __init__(self, scene_queue: queue.Queue) -> None:
         super().__init__()
-        self._model = MenuSceneModel(collection=[i18n.t("new_game")])
+        self._model = SelectionViewModel(collection=[i18n.t("new_game")])
         self._input_handler = MenuSceneInputHandler(self._model)
         self._renderer = MenuSceneRenderer(self._model)
-        self._scene_queue = scene_queue
 
     def handle_inputs(self) -> None:
         self._input_handler.handle_inputs()

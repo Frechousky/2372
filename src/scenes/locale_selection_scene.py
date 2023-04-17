@@ -10,15 +10,8 @@ from scenes.menu_scene import MenuScene
 from settings import WINDOW_SIZE, init_i18n
 
 
-class LocaleSelectionSceneModel(SelectionViewModel):
-    def __init__(self, collection: List | Tuple, cursor_pos=0) -> None:
-        super().__init__(collection, cursor_pos)
-
-
 class LocaleSelectionInputHandler(InputHandler):
-    def __init__(
-        self, model: LocaleSelectionSceneModel, scene_queue: queue.Queue
-    ) -> None:
+    def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue) -> None:
         self._model = model
         self._scene_queue = scene_queue
         self._key_down_callbacks = {
@@ -44,7 +37,7 @@ class LocaleSelectionInputHandler(InputHandler):
 
 
 class LocaleSelectionRenderer(Renderer):
-    def __init__(self, model: LocaleSelectionSceneModel) -> None:
+    def __init__(self, model: SelectionViewModel) -> None:
         self._model = model
         self._flags = pygame.sprite.Group(
             [
@@ -52,7 +45,7 @@ class LocaleSelectionRenderer(Renderer):
                 for locale in self._model.collection
             ]
         )
-        # update flags position
+        # set flag position
         for i, fs in enumerate(self._flags):
             v_offset = (
                 WINDOW_SIZE[0] - len(self._model.collection) * fs.rect.width
@@ -81,7 +74,7 @@ class LocaleSelectionRenderer(Renderer):
 
 class LocaleSelectionScene(Scene):
     def __init__(self, locales: List[str], scene_queue: queue.Queue) -> None:
-        self._model = LocaleSelectionSceneModel(collection=locales)
+        self._model = SelectionViewModel(collection=locales)
         self._input_handler = LocaleSelectionInputHandler(
             model=self._model, scene_queue=scene_queue
         )
