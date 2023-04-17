@@ -15,6 +15,7 @@ def init_pygamemixer():
 @pytest.skip(reason="pygame.mixer.init fails on github action", allow_module_level=True)
 def test_load_existing_sound(init_pygamemixer):
     s = load_sound(CLICK_SOUND)
+
     assert s is not None, "sound is not None"
     assert isinstance(s, pygame.mixer.Sound), "sound is pygame.mixer.Sound"
 

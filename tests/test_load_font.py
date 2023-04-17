@@ -14,6 +14,7 @@ def init_pygamefont():
 
 def test_load_existing_font(init_pygamefont):
     f = load_font(BLANKA_FONT, 30)
+
     assert f is not None, "font is not None"
     assert isinstance(f, pygame.font.Font), "font is pygame.font.Font"
 

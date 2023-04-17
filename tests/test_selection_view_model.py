@@ -35,6 +35,7 @@ test_selected_data = [
 @pytest.mark.parametrize("cursor_pos,collection,expected", test_init_data)
 def test_init(cursor_pos: int, collection: List[str], expected: int):
     tested = SelectionViewModel(collection, cursor_pos)
+
     assert tested._cursor_pos == expected, "cursor_pos is in range [0, len(collection)["
 
 
@@ -44,6 +45,7 @@ def test_init(cursor_pos: int, collection: List[str], expected: int):
 def test_decrement_cursor_pos(cursor_pos: int, collection: List[str], expected: int):
     tested = SelectionViewModel(collection, cursor_pos)
     tested.decrement_cursor_pos()
+
     assert tested._cursor_pos == expected, "cursor_pos is updated correctly"
 
 
@@ -53,10 +55,12 @@ def test_decrement_cursor_pos(cursor_pos: int, collection: List[str], expected: 
 def test_increment_cursor_pos(cursor_pos: int, collection: List[str], expected: int):
     tested = SelectionViewModel(collection, cursor_pos)
     tested.increment_cursor_pos()
+
     assert tested._cursor_pos == expected, "cursor_pos is updated correctly"
 
 
 @pytest.mark.parametrize("cursor_pos,collection,expected", test_selected_data)
 def test_selected(cursor_pos: int, collection: List[str], expected: str):
     tested = SelectionViewModel(collection, cursor_pos)
+
     assert tested.selected == expected, "returns selected element"
