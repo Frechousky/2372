@@ -9,7 +9,7 @@ from graphics import FontSprite
 from settings import BLANKA_FONT, GAME_NAME, WINDOW_SIZE
 
 
-class MenuSceneInputHandler(InputHandler):
+class MenuInputHandler(InputHandler):
     def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue) -> None:
         super().__init__()
         self._model = model
@@ -23,7 +23,7 @@ class MenuSceneInputHandler(InputHandler):
 
 
 
-class MenuSceneRenderer(Renderer):
+class MenuRenderer(Renderer):
     def __init__(self, model: SelectionViewModel) -> None:
         super().__init__()
         self._model = model
@@ -65,8 +65,8 @@ class MenuScene(Scene):
     def __init__(self, scene_queue: queue.Queue) -> None:
         super().__init__()
         self._model = SelectionViewModel(collection=[i18n.t("new_game")])
-        self._input_handler = MenuSceneInputHandler(self._model)
-        self._renderer = MenuSceneRenderer(self._model)
+        self._input_handler = MenuInputHandler(self._model, scene_queue)
+        self._renderer = MenuRenderer(self._model)
 
     def handle_inputs(self) -> None:
         self._input_handler.handle_inputs()
