@@ -35,9 +35,7 @@ test_selected_data = [
 @pytest.mark.parametrize("cursor_pos,collection,expected", test_init_data)
 def test_init(cursor_pos: int, collection: List[str], expected: int):
     tested = SelectionViewModel(collection, cursor_pos)
-    assert (
-        tested._cursor_pos == expected
-    ), "cursor_pos should be in range [0, len(collection)["
+    assert tested._cursor_pos == expected, "cursor_pos is in range [0, len(collection)["
 
 
 @pytest.mark.parametrize(
