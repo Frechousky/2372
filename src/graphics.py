@@ -89,13 +89,11 @@ class PlayerSprite(Sprite):
         self._vx = 0
 
     def update_position(self, fps: float):
-        # use ceil to avoid dividing by 0
-        self.rect.centerx += self._vx // ceil(fps)
-        self.rect.centery += self._vy // ceil(fps)
+        self.rect.centerx += self._vx // int(max(fps, 1))
+        self.rect.centery += self._vy // int(max(fps, 1))
 
     def apply_gravity(self, fps: float):
-        # use ceil to avoid dividing by 0
-        self._vy += self.weight // ceil(fps)
+        self._vy += self.weight // int(max(fps, 1))
 
     def hit_ground(self):
         self._available_jumps = self.max_available_jumps
