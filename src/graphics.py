@@ -86,8 +86,10 @@ class PlayerSprite(Sprite):
     def stop_horizontal_movement(self):
         self._vx = 0
 
-    def update_position(self, fps: float):
+    def update_horizontal_pos(self, fps: float):
         self.rect.centerx += self._vx // int(max(fps, 1))
+
+    def update_vertical_pos(self, fps: float):
         self.rect.centery += self._vy // int(max(fps, 1))
 
     def apply_gravity(self, fps: float):

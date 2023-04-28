@@ -63,92 +63,103 @@ def test_stop_horizontal_movement__resets_vx(vx):
 
 
 @pytest.mark.parametrize(
-    "x,y,vx,vy,fps,expected_x,expected_y",
+    "x,y,vx,fps,expected_x",
     [
         (
             50,
             50,
             0,
-            0,
             60.0,
-            50,
             50,
         ),
         (
             50,
             50,
             -180,
-            0,
             60.0,
             47,
-            50,
         ),
         (
             50,
             50,
             222,
-            0,
             60.0,
             53,
-            50,
-        ),
-        (
-            50,
-            50,
-            0,
-            -666,
-            60.0,
-            50,
-            38,
-        ),
-        (
-            50,
-            50,
-            0,
-            333,
-            60.0,
-            50,
-            55,
-        ),
-        (
-            50,
-            50,
-            -777,
-            963,
-            60.0,
-            37,
-            66,
         ),
         (
             50,
             50,
             -120,
-            0,
             0.0,
             -70,
-            50,
         ),
     ],
     ids=[
-        "when no vx and no xy, does not update position",
-        "when only negative vx, only updates x position",
-        "when only positive vx, only updates x position",
-        "when only negative vy, only updates y position",
-        "when only positive vy, only updates y position",
-        "when vx and vy, updates x and y position",
+        "when no vx, does not update position",
+        "when negative vx, updates x position",
+        "when positive vx, updates x position",
         "when 0 fps, does not raise ZeroDivisionError",
     ],
 )
-def test_update_position(
-    x: int, y: int, vx: int, vy: int, fps: float, expected_x: int, expected_y: int
-):
-    tested = PlayerSprite(vx=vx, vy=vy)
+def update_vertical_pos(x: int, y: int, vx: int, fps: float, expected_x: int):
+    tested = PlayerSprite(vx=vx)
     tested.rect.topleft = (x, y)
 
-    tested.update_position(fps)
+    tested.update_horizontal_pos(fps)
 
     assert tested.rect.topleft == (
         expected_x,
+        y,
+    )
+
+
+@pytest.mark.parametrize(
+    "x,y,vy,fps,expected_y",
+    [
+        (
+            50,
+            50,
+            0,
+            60.0,
+            50,
+        ),
+        (
+            50,
+            50,
+            -180,
+            60.0,
+            47,
+        ),
+        (
+            50,
+            50,
+            222,
+            60.0,
+            53,
+        ),
+        (
+            50,
+            50,
+            -120,
+            0.0,
+            -70,
+        ),
+    ],
+    ids=[
+        "when no vy does not update position",
+        "when negative vy, updates y position",
+        "when positive vy, updates y position",
+        "when 0 fps, does not raise ZeroDivisionError",
+    ],
+)
+def update_vertical_pos(x: int, y: int, vy: int, fps: float, expected_y: int):
+    tested = PlayerSprite(vy=vy)
+    tested.rect.topleft = (x, y)
+
+    tested.update_vertical_pos(fps)
+
+    assert tested.rect.topleft == (
+        x,
         expected_y,
     )
 
