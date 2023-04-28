@@ -189,3 +189,12 @@ def test_hit_ground__resets_vy(vy: int):
     tested.hit_ground()
 
     assert tested._vy == 0
+
+
+@pytest.mark.parametrize("vy", [0, -10, 20])
+def test_hit_roof__resets_vy(vy: int):
+    tested = PlayerSprite(vy=vy)
+
+    tested.hit_roof()
+
+    assert tested._vy == 0
