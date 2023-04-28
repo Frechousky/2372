@@ -27,7 +27,7 @@ class Game:
     def run(self):
         logging.debug("Run the game")
         while 1:
-            current_fps = self._clock.tick(FPS)
+            current_fps = 1000 / self._clock.tick(FPS)
             if not self._scene_queue.empty():
                 # update scene
                 self._scene = self._scene_queue.get()
