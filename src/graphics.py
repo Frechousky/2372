@@ -95,4 +95,4 @@ class PlayerSprite(Sprite):
 
     def hit_ground(self):
         self._available_jumps = self.max_available_jumps
-        self._vy = 0.0
+        self._vy = 0
