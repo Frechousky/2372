@@ -28,7 +28,7 @@ class InputHandler:
     def key_up_callbacks(self) -> dict:
         return None
 
-    def _on_quit(self, event: pygame.event.Event) -> None:
+    def _on_quit(self, event: pygame.event.Event):
         pygame.quit()
         quit()
 
@@ -36,34 +36,34 @@ class InputHandler:
 class Renderer:
     """handle rendering"""
 
-    def render(self, screen: pygame.surface.Surface) -> None:
+    def render(self, screen: pygame.surface.Surface):
         pass
 
 
 class Updater:
     """handle updates"""
 
-    def update(self, fps: int) -> None:
+    def update(self, fps: int):
         pass
 
 
 class Scene:
     """handle user inputs, rendering and update (may delegate to InputHandler, Renderer and Updater)"""
 
-    def handle_inputs(self) -> None:
+    def handle_inputs(self):
         pass
 
-    def render(self, screen: pygame.Surface) -> None:
+    def render(self, screen: pygame.Surface):
         pass
 
-    def update(self, fps: int) -> None:
+    def update(self, fps: int):
         pass
 
 
 class SelectionViewModel:
     """view model for selection with cursor screen"""
 
-    def __init__(self, collection: List[Any] | Tuple[Any], cursor_pos=0) -> None:
+    def __init__(self, collection: List[Any] | Tuple[Any], cursor_pos=0):
         self._collection = (
             collection if isinstance(collection, tuple.__class__) else tuple(collection)
         )
@@ -82,10 +82,10 @@ class SelectionViewModel:
     def selected(self) -> Any:
         return self._collection[self._cursor_pos]
 
-    def decrement_cursor_pos(self) -> None:
+    def decrement_cursor_pos(self):
         self._cursor_pos -= 1
         self._cursor_pos = self._cursor_pos % len(self._collection)
 
-    def increment_cursor_pos(self) -> None:
+    def increment_cursor_pos(self):
         self._cursor_pos += 1
         self._cursor_pos = self._cursor_pos % len(self._collection)

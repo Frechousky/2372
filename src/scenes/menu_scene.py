@@ -10,7 +10,7 @@ from settings import BLANKA_FONT, GAME_NAME, WINDOW_SIZE
 
 
 class MenuInputHandler(InputHandler):
-    def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue) -> None:
+    def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue):
         super().__init__()
         self._model = model
         self._scene_queue = scene_queue
@@ -29,7 +29,7 @@ class MenuInputHandler(InputHandler):
 
 
 class MenuRenderer(Renderer):
-    def __init__(self, model: SelectionViewModel) -> None:
+    def __init__(self, model: SelectionViewModel):
         super().__init__()
         self._model = model
         self._banner_sprite = FontSprite(
@@ -46,14 +46,14 @@ class MenuRenderer(Renderer):
         for menu_sprite in self._menus_sprite:
             menu_sprite.rect.center = (WINDOW_SIZE[0] // 2, WINDOW_SIZE[1] // 2)
 
-    def render(self, screen: pygame.surface.Surface) -> None:
+    def render(self, screen: pygame.surface.Surface):
         screen.fill((0, 0, 0))
         screen.blit(self._banner_sprite.image, self._banner_sprite.rect)
         self._menus_sprite.draw(screen)
         self._draw_selection_cursor(screen)
         pygame.display.update()
 
-    def _draw_selection_cursor(self, screen: pygame.surface.Surface) -> None:
+    def _draw_selection_cursor(self, screen: pygame.surface.Surface):
         fs = self._menus_sprite.sprites()[self._model.cursor_pos]
         width = WINDOW_SIZE[0] // 400
         offset = WINDOW_SIZE[0] // 150
@@ -67,14 +67,14 @@ class MenuRenderer(Renderer):
 
 
 class MenuScene(Scene):
-    def __init__(self, scene_queue: queue.Queue) -> None:
+    def __init__(self, scene_queue: queue.Queue):
         super().__init__()
         self._model = SelectionViewModel(collection=[i18n.t("new_game")])
         self._input_handler = MenuInputHandler(self._model, scene_queue)
         self._renderer = MenuRenderer(self._model)
 
-    def handle_inputs(self) -> None:
+    def handle_inputs(self):
         self._input_handler.handle_inputs()
 
-    def render(self, screen: pygame.Surface) -> None:
+    def render(self, screen: pygame.Surface):
         self._renderer.render(screen)

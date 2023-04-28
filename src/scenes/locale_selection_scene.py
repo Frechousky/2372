@@ -10,7 +10,7 @@ from settings import WINDOW_SIZE, init_i18n
 
 
 class LocaleSelectionInputHandler(InputHandler):
-    def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue) -> None:
+    def __init__(self, model: SelectionViewModel, scene_queue: queue.Queue):
         self._model = model
         self._scene_queue = scene_queue
         self._key_down_callbacks = {
@@ -37,7 +37,7 @@ class LocaleSelectionInputHandler(InputHandler):
 
 
 class LocaleSelectionRenderer(Renderer):
-    def __init__(self, model: SelectionViewModel) -> None:
+    def __init__(self, model: SelectionViewModel):
         self._model = model
         self._flags = pygame.sprite.Group(
             [
@@ -53,13 +53,13 @@ class LocaleSelectionRenderer(Renderer):
             fs.rect.left = v_offset * (i + 1) + fs.rect.width * i
             fs.rect.top = (WINDOW_SIZE[1] - fs.rect.height) / 2
 
-    def render(self, screen: pygame.surface.Surface) -> None:
+    def render(self, screen: pygame.surface.Surface):
         screen.fill((0, 0, 0))
         self._flags.draw(surface=screen)
         self._draw_selection_cursor(screen=screen)
         pygame.display.update()
 
-    def _draw_selection_cursor(self, screen: pygame.surface.Surface) -> None:
+    def _draw_selection_cursor(self, screen: pygame.surface.Surface):
         fs = self._flags.sprites()[self._model.cursor_pos]
         width = WINDOW_SIZE[0] // 400
         offset = WINDOW_SIZE[0] // 150
@@ -73,15 +73,15 @@ class LocaleSelectionRenderer(Renderer):
 
 
 class LocaleSelectionScene(Scene):
-    def __init__(self, locales: List[str], scene_queue: queue.Queue) -> None:
+    def __init__(self, locales: List[str], scene_queue: queue.Queue):
         self._model = SelectionViewModel(collection=locales)
         self._input_handler = LocaleSelectionInputHandler(
             model=self._model, scene_queue=scene_queue
         )
         self._renderer = LocaleSelectionRenderer(model=self._model)
 
-    def handle_inputs(self) -> None:
+    def handle_inputs(self):
         self._input_handler.handle_inputs()
 
-    def render(self, screen: pygame.Surface) -> None:
+    def render(self, screen: pygame.Surface):
         self._renderer.render(screen=screen)

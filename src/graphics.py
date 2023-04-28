@@ -31,9 +31,7 @@ def load_sound(filename: str) -> pygame.mixer.Sound:
 
 
 class Sprite(pygame.sprite.Sprite):
-    def __init__(
-        self, image: pygame.Surface, *groups: List[pygame.sprite.Group]
-    ) -> None:
+    def __init__(self, image: pygame.Surface, *groups: List[pygame.sprite.Group]):
         super().__init__(*groups)
         self.image = image
         self.rect = self.image.get_rect()
@@ -47,7 +45,7 @@ class FontSprite(Sprite):
         font_size: int,
         color: pygame.Color,
         *groups: List[pygame.sprite.Group],
-    ) -> None:
+    ):
         font = load_font(font_name, font_size)
         image = font.render(text, True, color)
         super().__init__(image, *groups)
@@ -65,7 +63,7 @@ class PlayerSprite(Sprite):
         vy: int = 0,
         available_jumps: int = max_available_jumps,
         *groups: List[pygame.sprite.Group],
-    ) -> None:
+    ):
         image = pygame.surface.Surface(size=(32, 32))
         image.fill((255, 0, 0))
         super().__init__(image, *groups)
