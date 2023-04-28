@@ -54,7 +54,7 @@ class FontSprite(Sprite):
 class PlayerSprite(Sprite):
     jump_speed_init = 300
     max_available_jumps = 2
-    max_vx_speed = 120
+    max_vx_speed = 300
     weight = 300
 
     def __init__(
