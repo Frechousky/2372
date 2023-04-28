@@ -1,5 +1,5 @@
 name: Run tests
-
+run-name: ${{ github.workflow }} | ${{ github.event.head_commit.message }}
 on: [push]
 
 jobs:
