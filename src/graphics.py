@@ -107,7 +107,7 @@ class PlayerAnimationHandler:
         self._direction = direction
         self._idx = idx
 
-    def update(self, new_state: PlayerState, new_direction: Direction, fps: float):
+    def update(self, new_state: PlayerState, new_direction: Direction, dt: int):
         if self._state != new_state:
             # player state updated
             self._idx = 0.0
@@ -118,7 +118,7 @@ class PlayerAnimationHandler:
                 offset = self.run_offset
             elif new_state is PlayerState.JUMP:
                 offset = self.jump_offset
-            self._idx += offset / max(fps, 1.0)
+            self._idx += offset * dt
         self._direction = new_direction
 
     @property
@@ -165,14 +165,14 @@ class PlayerSprite(Sprite):
     def stop_horizontal_movement(self):
         self._vx = 0
 
-    def update_horizontal_pos(self, fps: float):
-        self.rect.centerx += self._vx // int(max(fps, 1))
+    def update_horizontal_pos(self, dt: int):
+        self.rect.centerx += self._vx * dt
 
-    def update_vertical_pos(self, fps: float):
-        self.rect.centery += self._vy // int(max(fps, 1))
+    def update_vertical_pos(self, dt: int):
+        self.rect.centery += self._vy * dt
 
-    def apply_gravity(self, fps: float):
-        self._vy += self.weight // int(max(fps, 1))
+    def apply_gravity(self, dt: int):
+        self._vy += self.weight * dt
 
     def hit_ground(self):
         self._available_jumps = self.max_available_jumps
@@ -190,7 +190,6 @@ class PlayerSprite(Sprite):
         else:
             return PlayerState.RUN
 
-    def update_image(self, fps: float):
-        self._sprite_sheet.update(self.state, self._direction, fps)
+    def update_image(self, dt: int):
+        self._sprite_sheet.update(self.state, self._direction, dt)
         self.image = self._sprite_sheet.image
-

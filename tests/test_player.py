@@ -105,51 +105,51 @@ def test_stop_horizontal_movement__resets_vx(vx: int, player_animation_handler_m
 
 
 @pytest.mark.parametrize(
-    "x,y,vx,fps,expected_x",
+    "x,y,vx,dt,expected_x",
     [
         (
             50,
             50,
             0,
-            60.0,
+            17,
             50,
         ),
         (
             50,
             50,
             -180,
-            60.0,
+            17,
             47,
         ),
         (
             50,
             50,
             222,
-            60.0,
+            17,
             53,
         ),
         (
             50,
             50,
-            -120,
-            0.0,
-            -70,
+            222,
+            0,
+            50,
         ),
     ],
     ids=[
         "when no vx, does not update position",
         "when negative vx, updates x position",
         "when positive vx, updates x position",
-        "when 0 fps, does not raise ZeroDivisionError",
+        "when dt is zero, does not update position",
     ],
 )
 def update_vertical_pos(
-    x: int, y: int, vx: int, fps: float, expected_x: int, sprite_sheet_mocker
+    x: int, y: int, vx: int, dt: int, expected_x: int, sprite_sheet_mocker
 ):
     tested = PlayerSprite(vx=vx)
     tested.rect.topleft = (x, y)
 
-    tested.update_horizontal_pos(fps)
+    tested.update_horizontal_pos(dt)
 
     assert tested.rect.topleft == (
         expected_x,
@@ -158,51 +158,51 @@ def update_vertical_pos(
 
 
 @pytest.mark.parametrize(
-    "x,y,vy,fps,expected_y",
+    "x,y,vy,dt,expected_y",
     [
         (
             50,
             50,
             0,
-            60.0,
+            17,
             50,
         ),
         (
             50,
             50,
             -180,
-            60.0,
+            17,
             47,
         ),
         (
             50,
             50,
             222,
-            60.0,
+            17,
             53,
         ),
         (
             50,
             50,
-            -120,
-            0.0,
-            -70,
+            222,
+            0,
+            50,
         ),
     ],
     ids=[
         "when no vy does not update position",
         "when negative vy, updates y position",
         "when positive vy, updates y position",
-        "when 0 fps, does not raise ZeroDivisionError",
+        "when dt is zero, does not update position",
     ],
 )
 def update_vertical_pos(
-    x: int, y: int, vy: int, fps: float, expected_y: int, sprite_sheet_mocker
+    x: int, y: int, vy: int, dt: int, expected_y: int, sprite_sheet_mocker
 ):
     tested = PlayerSprite(vy=vy)
     tested.rect.topleft = (x, y)
 
-    tested.update_vertical_pos(fps)
+    tested.update_vertical_pos(dt)
 
     assert tested.rect.topleft == (
         x,
@@ -210,15 +210,28 @@ def update_vertical_pos(
     )
 
 
-@pytest.mark.parametrize("vy,fps", [(-50, 60.0), (72, 60.0), (0, 60.0), (-50, 0.0)])
-def test_apply_gravity__increases_vy(
-    vy: int, fps: float, player_animation_handler_mocker
+@pytest.mark.parametrize(
+    "vy,dt", [(-50, 17), (72, 17), (0, 17), (-50, 9), (72, 9), (0, 9)]
+)
+def test_apply_gravity__if_dt_is_not_zero__increases_vy(
+    vy: int, dt: int, player_animation_handler_mocker
 ):
     tested = PlayerSprite(vy=vy)
 
-    tested.apply_gravity(fps)
+    tested.apply_gravity(dt=dt)
 
     assert tested._vy > vy
+
+
+@pytest.mark.parametrize("vy", [(-50), (72), (0)])
+def test_apply_gravity__if_dt_is_zero__does_increase_vy(
+    vy: int, player_animation_handler_mocker
+):
+    tested = PlayerSprite(vy=vy)
+
+    tested.apply_gravity(dt=0)
+
+    assert tested._vy == vy
 
 
 @pytest.mark.parametrize("available_jumps", [-1, 0, 5])

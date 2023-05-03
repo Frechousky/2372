@@ -43,7 +43,7 @@ class Updater(abc.ABC):
     """handle updates"""
 
     @abc.abstractmethod
-    def update(self, fps: int):
+    def update(self, dt: int):
         pass
 
 
@@ -56,7 +56,7 @@ class Scene:
     def render(self, screen: pygame.Surface):
         pass
 
-    def update(self, fps: int):
+    def update(self, dt: int):
         pass
 
 
