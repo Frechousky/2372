@@ -1,6 +1,7 @@
 import functools
 import logging
 import os
+from enum import Enum
 from typing import List
 
 import pygame
@@ -56,6 +57,76 @@ class Direction(Enum):
     RIGHT = 1
 
 
+class PlayerState(Enum):
+    IDLE = 0
+    RUN = 1
+    JUMP = 2
+
+
+class PlayerAnimationHandler:
+    run_offset = 10
+    jump_offset = 15
+    idle_offset = 8
+
+    def __init__(
+        self, state=PlayerState.IDLE, direction=Direction.RIGHT, idx=0.0
+    ) -> None:
+        self._state_direction_images = [None] * len(PlayerState)
+        # contains 2 list of images for each PlayerState, one for left and one for right direction
+        self._state_direction_images[PlayerState.IDLE.value] = [
+            [
+                load_image(filename)
+                for filename in [f"player/idle/idle-left-{i+1}.png" for i in range(4)]
+            ],
+            [
+                load_image(filename)
+                for filename in [f"player/idle/idle-right-{i+1}.png" for i in range(4)]
+            ],
+        ]
+        self._state_direction_images[PlayerState.RUN.value] = [
+            [
+                load_image(filename)
+                for filename in [f"player/run/run-left-{i+1}.png" for i in range(8)]
+            ],
+            [
+                load_image(filename)
+                for filename in [f"player/run/run-right-{i+1}.png" for i in range(8)]
+            ],
+        ]
+        self._state_direction_images[PlayerState.JUMP.value] = [
+            [
+                load_image(filename)
+                for filename in [f"player/jump/jump-left-{i+1}.png" for i in range(4)]
+            ],
+            [
+                load_image(filename)
+                for filename in [f"player/jump/jump-right-{i+1}.png" for i in range(4)]
+            ],
+        ]
+        self._state = state
+        self._direction = direction
+        self._idx = idx
+
+    def update(self, new_state: PlayerState, new_direction: Direction, fps: float):
+        if self._state != new_state:
+            # player state updated
+            self._idx = 0.0
+            self._state = new_state
+        else:
+            offset = self.idle_offset
+            if new_state is PlayerState.RUN:
+                offset = self.run_offset
+            elif new_state is PlayerState.JUMP:
+                offset = self.jump_offset
+            self._idx += offset / max(fps, 1.0)
+        self._direction = new_direction
+
+    @property
+    def image(self) -> pygame.Surface:
+        images = self._state_direction_images[self._state.value][self._direction.value]
+        return images[int(self._idx) % len(images)]
+
+
 class PlayerSprite(Sprite):
     jump_speed_init = 1000
     max_available_jumps = 2
@@ -70,13 +141,12 @@ class PlayerSprite(Sprite):
         direction=Direction.RIGHT,
         *groups: List[pygame.sprite.Group],
     ):
-        image = pygame.surface.Surface(size=(32, 32))
-        image.fill((255, 0, 0))
-        super().__init__(image, *groups)
         self._vx = vx
         self._vy = vy
         self._available_jumps = available_jumps
+        self._sprite_sheet = PlayerAnimationHandler(self.state)
         self._direction = direction
+        super().__init__(self._sprite_sheet.image, *groups)
 
     def jump(self):
         if self._available_jumps <= 0:
@@ -110,3 +180,17 @@ class PlayerSprite(Sprite):
 
     def hit_roof(self):
         self._vy = 0
+
+    @property
+    def state(self) -> PlayerState:
+        if self._vy != 0:
+            return PlayerState.JUMP
+        elif self._vx == self._vy == 0:
+            return PlayerState.IDLE
+        else:
+            return PlayerState.RUN
+
+    def update_image(self, fps: float):
+        self._sprite_sheet.update(self.state, self._direction, fps)
+        self.image = self._sprite_sheet.image
+

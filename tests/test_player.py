@@ -1,10 +1,24 @@
+import pygame
 import pytest
 
-from graphics import PlayerSprite
+from graphics import Direction, PlayerSprite, PlayerState
+
+
+@pytest.fixture
+def player_animation_handler_mocker(mocker):
+    mocker.patch("graphics.PlayerAnimationHandler.__init__", return_value=None)
+    mocker.patch(
+        "graphics.PlayerAnimationHandler.image",
+        return_value=pygame.surface.Surface(size=(32, 32)),
+    )
+    mocker.patch("graphics.PlayerAnimationHandler.update", return_value=None)
+    return mocker
 
 
 @pytest.mark.parametrize("vy", [0, -10, 20])
-def test_jump__if_available_jump__updates_player_vy(vy: int):
+def test_jump__if_available_jump__updates_player_vy(
+    vy: int, player_animation_handler_mocker
+):
     tested = PlayerSprite(vy=vy, available_jumps=1)
 
     assert tested._available_jumps > 0
@@ -18,7 +32,9 @@ def test_jump__if_available_jump__updates_player_vy(vy: int):
 
 
 @pytest.mark.parametrize("vy", [0, -10, 20])
-def test_jump__if_no_available_jump__does_nothing(vy: int):
+def test_jump__if_no_available_jump__does_nothing(
+    vy: int, player_animation_handler_mocker
+):
     tested = PlayerSprite(vy=vy, available_jumps=0)
 
     assert tested._available_jumps == 0
@@ -30,7 +46,7 @@ def test_jump__if_no_available_jump__does_nothing(vy: int):
 
 
 @pytest.mark.parametrize("vx", [0, -10, 20])
-def test_move_right__updates_player_vx(vx):
+def test_move_right__updates_player_vx(vx: int, player_animation_handler_mocker):
     tested = PlayerSprite(vx=vx)
 
     assert tested._vx == vx
@@ -40,8 +56,21 @@ def test_move_right__updates_player_vx(vx):
     assert tested._vx > 0, "vx is positive so the player is moving right"
 
 
+@pytest.mark.parametrize("direction", [Direction.LEFT, Direction.RIGHT])
+def test_move_right__updates_player_direction(
+    direction: Direction, player_animation_handler_mocker
+):
+    tested = PlayerSprite(direction=direction)
+
+    assert tested._direction == direction
+
+    tested.move_right()
+
+    assert tested._direction == Direction.RIGHT
+
+
 @pytest.mark.parametrize("vx", [0, -10, 20])
-def test_move_left__updates_player_vx(vx):
+def test_move_left__updates_player_vx(vx: int, player_animation_handler_mocker):
     tested = PlayerSprite(vx=vx)
 
     assert tested._vx == vx
@@ -51,8 +80,21 @@ def test_move_left__updates_player_vx(vx):
     assert tested._vx < 0, "vx is negative so the player is moving left"
 
 
+@pytest.mark.parametrize("direction", [Direction.LEFT, Direction.RIGHT])
+def test_move_left__updates_player_direction(
+    direction: Direction, player_animation_handler_mocker
+):
+    tested = PlayerSprite(direction=direction)
+
+    assert tested._direction == direction
+
+    tested.move_left()
+
+    assert tested._direction == Direction.LEFT
+
+
 @pytest.mark.parametrize("vx", [0, -10, 20])
-def test_stop_horizontal_movement__resets_vx(vx):
+def test_stop_horizontal_movement__resets_vx(vx: int, player_animation_handler_mocker):
     tested = PlayerSprite(vx=vx)
 
     assert tested._vx == vx
@@ -101,7 +143,9 @@ def test_stop_horizontal_movement__resets_vx(vx):
         "when 0 fps, does not raise ZeroDivisionError",
     ],
 )
-def update_vertical_pos(x: int, y: int, vx: int, fps: float, expected_x: int):
+def update_vertical_pos(
+    x: int, y: int, vx: int, fps: float, expected_x: int, sprite_sheet_mocker
+):
     tested = PlayerSprite(vx=vx)
     tested.rect.topleft = (x, y)
 
@@ -152,7 +196,9 @@ def update_vertical_pos(x: int, y: int, vx: int, fps: float, expected_x: int):
         "when 0 fps, does not raise ZeroDivisionError",
     ],
 )
-def update_vertical_pos(x: int, y: int, vy: int, fps: float, expected_y: int):
+def update_vertical_pos(
+    x: int, y: int, vy: int, fps: float, expected_y: int, sprite_sheet_mocker
+):
     tested = PlayerSprite(vy=vy)
     tested.rect.topleft = (x, y)
 
@@ -165,7 +211,9 @@ def update_vertical_pos(x: int, y: int, vy: int, fps: float, expected_y: int):
 
 
 @pytest.mark.parametrize("vy,fps", [(-50, 60.0), (72, 60.0), (0, 60.0), (-50, 0.0)])
-def test_apply_gravity__increases_vy(vy: int, fps: float):
+def test_apply_gravity__increases_vy(
+    vy: int, fps: float, player_animation_handler_mocker
+):
     tested = PlayerSprite(vy=vy)
 
     tested.apply_gravity(fps)
@@ -174,7 +222,9 @@ def test_apply_gravity__increases_vy(vy: int, fps: float):
 
 
 @pytest.mark.parametrize("available_jumps", [-1, 0, 5])
-def test_hit_ground__resets_available_jumps(available_jumps: int):
+def test_hit_ground__resets_available_jumps(
+    available_jumps: int, player_animation_handler_mocker
+):
     tested = PlayerSprite(available_jumps=available_jumps)
 
     tested.hit_ground()
@@ -183,7 +233,7 @@ def test_hit_ground__resets_available_jumps(available_jumps: int):
 
 
 @pytest.mark.parametrize("vy", [0, -10, 20])
-def test_hit_ground__resets_vy(vy: int):
+def test_hit_ground__resets_vy(vy: int, player_animation_handler_mocker):
     tested = PlayerSprite(vy=vy)
 
     tested.hit_ground()
@@ -192,9 +242,42 @@ def test_hit_ground__resets_vy(vy: int):
 
 
 @pytest.mark.parametrize("vy", [0, -10, 20])
-def test_hit_roof__resets_vy(vy: int):
+def test_hit_roof__resets_vy(vy: int, player_animation_handler_mocker):
     tested = PlayerSprite(vy=vy)
 
     tested.hit_roof()
 
     assert tested._vy == 0
+
+
+@pytest.mark.parametrize(
+    "vx,vy,expected",
+    [
+        (-1, -1, PlayerState.JUMP),
+        (-1, 0, PlayerState.RUN),
+        (-1, 1, PlayerState.JUMP),
+        (0, -1, PlayerState.JUMP),
+        (0, 0, PlayerState.IDLE),
+        (0, 1, PlayerState.JUMP),
+        (1, -1, PlayerState.JUMP),
+        (1, 0, PlayerState.RUN),
+        (1, 1, PlayerState.JUMP),
+    ],
+    ids=[
+        "vx == -1 && vy == -1",
+        "vx == -1 && vy == 0",
+        "vx == -1 && vy == 1",
+        "vx == 0 && vy == -1",
+        "vx == 0 && vy == 0",
+        "vx == 0 && vy == 1",
+        "vx == 1 && vy == -1",
+        "vx == 1 && vy == 0",
+        "vx == 1 && vy == 1",
+    ],
+)
+def test_state(
+    vx: int, vy: int, expected: PlayerState, player_animation_handler_mocker
+):
+    tested = PlayerSprite(vx=vx, vy=vy)
+
+    assert tested.state == expected
