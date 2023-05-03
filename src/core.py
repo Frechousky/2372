@@ -1,3 +1,4 @@
+import abc
 from typing import Any, List, Tuple
 
 import pygame
@@ -10,22 +11,19 @@ class InputHandler:
         for event in pygame.event.get():
             if event.type == pygame.QUIT:
                 return self._on_quit(event)
-            cb = None
-            if event.type == pygame.KEYDOWN:
-                if self.key_down_callbacks is not None:
-                    cb = self.key_down_callbacks.get(event.key, None)
+            callbacks = None
             if event.type == pygame.KEYUP:
-                if self.key_up_callbacks is not None:
-                    cb = self.key_up_callbacks.get(event.key, None)
-            if cb is not None:
-                return cb(event)
+                callbacks = self.get_key_up_callbacks()
+            elif event.type == pygame.KEYDOWN:
+                callbacks = self.get_key_down_callbacks()
+            callback = callbacks.get(event.key, None) if callbacks is not None else None
+            if callback is not None:
+                return callback(event)
 
-    @property
-    def key_down_callbacks(self) -> dict:
+    def get_key_down_callbacks(self) -> dict | None:
         return None
 
-    @property
-    def key_up_callbacks(self) -> dict:
+    def get_key_up_callbacks(self) -> dict | None:
         return None
 
     def _on_quit(self, event: pygame.event.Event):
@@ -33,16 +31,18 @@ class InputHandler:
         quit()
 
 
-class Renderer:
+class Renderer(abc.ABC):
     """handle rendering"""
 
+    @abc.abstractmethod
     def render(self, screen: pygame.surface.Surface):
         pass
 
 
-class Updater:
+class Updater(abc.ABC):
     """handle updates"""
 
+    @abc.abstractmethod
     def update(self, fps: int):
         pass
 

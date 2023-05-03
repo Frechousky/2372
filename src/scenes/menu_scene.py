@@ -19,8 +19,7 @@ class MenuInputHandler(InputHandler):
             pygame.K_RETURN: self._select_menu,
         }
 
-    @property
-    def key_down_callbacks(self) -> dict:
+    def get_key_down_callbacks(self) -> dict:
         return self._key_down_callbacks
 
     def _select_menu(self, *args, **kwargs):

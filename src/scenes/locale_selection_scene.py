@@ -20,8 +20,7 @@ class LocaleSelectionInputHandler(InputHandler):
             pygame.K_RETURN: self._select_locale,
         }
 
-    @property
-    def key_down_callbacks(self) -> dict:
+    def get_key_down_callbacks(self) -> dict:
         return self._key_down_callbacks
 
     def _decrement_cursor_pos(self, *args, **kwargs):
