@@ -25,6 +25,7 @@ CLICK_SOUND = "click.wav"
 
 
 def init_i18n(locale: str):
+    """sets internationalization settings"""
     i18n.set("available_locales", LOCALES)
     # to load files 'fr.json', 'en.json'
     i18n.set("filename_format", "{locale}.{format}")
