@@ -51,6 +51,11 @@ class FontSprite(Sprite):
         super().__init__(image, *groups)
 
 
+class Direction(Enum):
+    LEFT = 0
+    RIGHT = 1
+
+
 class PlayerSprite(Sprite):
     jump_speed_init = 1000
     max_available_jumps = 2
@@ -62,6 +67,7 @@ class PlayerSprite(Sprite):
         vx: int = 0,
         vy: int = 0,
         available_jumps: int = max_available_jumps,
+        direction=Direction.RIGHT,
         *groups: List[pygame.sprite.Group],
     ):
         image = pygame.surface.Surface(size=(32, 32))
@@ -70,6 +76,7 @@ class PlayerSprite(Sprite):
         self._vx = vx
         self._vy = vy
         self._available_jumps = available_jumps
+        self._direction = direction
 
     def jump(self):
         if self._available_jumps <= 0:
@@ -79,9 +86,11 @@ class PlayerSprite(Sprite):
 
     def move_right(self):
         self._vx = self.max_vx_speed
+        self._direction = Direction.RIGHT
 
     def move_left(self):
         self._vx = -self.max_vx_speed
+        self._direction = Direction.LEFT
 
     def stop_horizontal_movement(self):
         self._vx = 0
