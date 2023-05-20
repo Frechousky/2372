@@ -64,12 +64,15 @@ class PlayerState(Enum):
 
 
 class PlayerAnimationHandler:
-    run_offset = 10
-    jump_offset = 15
-    idle_offset = 8
+    # animations per second depending on player state
+    ANIMATIONS_FQ_STATE = {
+        PlayerState.IDLE.value: 10,
+        PlayerState.JUMP.value: 18,
+        PlayerState.RUN.value: 12,
+    }
 
     def __init__(
-        self, state=PlayerState.IDLE, direction=Direction.RIGHT, idx=0.0
+        self, state=PlayerState.IDLE, direction=Direction.RIGHT, animation_time=0
     ) -> None:
         self._state_direction_images = [None] * len(PlayerState)
         # contains 2 list of images for each PlayerState, one for left and one for right direction
@@ -105,26 +108,22 @@ class PlayerAnimationHandler:
         ]
         self._state = state
         self._direction = direction
-        self._idx = idx
+        self._animation_time = animation_time  # in milliseconds
 
     def update(self, new_state: PlayerState, new_direction: Direction, dt: int):
-        if self._state != new_state:
-            # player state updated
-            self._idx = 0.0
+        if self._state != new_state or self._direction != new_direction:
+            # player animation update
+            self._animation_time = 0
             self._state = new_state
+            self._direction = new_direction
         else:
-            offset = self.idle_offset
-            if new_state is PlayerState.RUN:
-                offset = self.run_offset
-            elif new_state is PlayerState.JUMP:
-                offset = self.jump_offset
-            self._idx += offset * dt
-        self._direction = new_direction
+            self._animation_time += dt
 
     @property
     def image(self) -> pygame.Surface:
         images = self._state_direction_images[self._state.value][self._direction.value]
-        return images[int(self._idx) % len(images)]
+        animation_fq = self.ANIMATIONS_FQ_STATE[self._state.value]
+        return images[int(self._animation_time * animation_fq / 1000) % len(images)]
 
 
 class PlayerSprite(Sprite):

@@ -27,7 +27,7 @@ class Game:
     def run(self):
         logging.debug("Run the game")
         while 1:
-            dt = self._clock.tick(FPS)  # tick returns delta time
+            dt = self._clock.tick(FPS)  # delta time in milliseconds
             if not self._scene_queue.empty():
                 # update scene
                 self._scene = self._scene_queue.get()
