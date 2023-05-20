@@ -127,10 +127,10 @@ class PlayerAnimationHandler:
 
 
 class PlayerSprite(Sprite):
-    jump_speed_init = 1000
+    jump_vy = -500  # pixels per second
     max_available_jumps = 2
-    max_vx_speed = 1000
-    weight = 2500
+    max_vx_speed = 500  # pixels per second
+    weight = 1500  # pixels per second squared
 
     def __init__(
         self,
@@ -151,7 +151,7 @@ class PlayerSprite(Sprite):
         if self._available_jumps <= 0:
             return
         self._available_jumps -= 1
-        self._vy = -self.jump_speed_init
+        self._vy = self.jump_vy
 
     def move_right(self):
         self._vx = self.max_vx_speed
@@ -165,13 +165,13 @@ class PlayerSprite(Sprite):
         self._vx = 0
 
     def update_horizontal_pos(self, dt: int):
-        self.rect.centerx += self._vx * dt
+        self.rect.centerx += self._vx * dt / 1000
 
     def update_vertical_pos(self, dt: int):
-        self.rect.centery += self._vy * dt
+        self.rect.centery += self._vy * dt / 1000
 
     def apply_gravity(self, dt: int):
-        self._vy += self.weight * dt
+        self._vy += self.weight * dt / 1000
 
     def hit_ground(self):
         self._available_jumps = self.max_available_jumps
