@@ -12,7 +12,7 @@ class Game:
         logging.basicConfig(
             filename=LOGS_FILE,
             level=logging.DEBUG,
-            format="{asctime} {filename:>15s}:{lineno:<3d} {levelname:>8s} {message}",
+            format="{asctime} {filename:<15s} l{lineno:<4d} {levelname:<8s} {message}",
             datefmt="%Y-%m-%d %H:%M:%S",
             style="{",
         )
