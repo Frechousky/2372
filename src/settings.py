@@ -1,4 +1,4 @@
-import os
+import pathlib
 
 import i18n
 
@@ -12,15 +12,15 @@ FPS = 60
 LOCALES = ["fr", "en"]
 
 # directories
-ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
-FONTS_DIR = os.path.join(ROOT_DIR, "assets", "fonts")
-I18N_DIR = os.path.join(ROOT_DIR, "assets", "i18n")
-IMAGES_DIR = os.path.join(ROOT_DIR, "assets", "images")
-SOUNDS_DIR = os.path.join(ROOT_DIR, "assets", "sounds")
+ROOT_DIR = pathlib.Path(__file__).parent.parent
+FONTS_DIR = ROOT_DIR / "assets" / "fonts"
+I18N_DIR = ROOT_DIR / "assets" / "i18n"
+IMAGES_DIR = ROOT_DIR / "assets" / "images"
+SOUNDS_DIR = ROOT_DIR / "assets" / "sounds"
 
 # files
-LOGS_FILE = os.path.join(ROOT_DIR, "logs.log")
-BLANKA_FONT = os.path.join("blanka", "Blanka.otf")
+LOGS_FILE = ROOT_DIR / "logs.log"
+BLANKA_FONT = pathlib.Path("blanka", "Blanka.otf")
 CLICK_SOUND = "click.wav"
 
 

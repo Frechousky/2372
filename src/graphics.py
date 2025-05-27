@@ -1,6 +1,6 @@
 import functools
 import logging
-import os
+import pathlib
 from enum import Enum
 from typing import List
 
@@ -9,24 +9,24 @@ import pygame
 from src.settings import FONTS_DIR, IMAGES_DIR, SOUNDS_DIR
 
 
-def load_font(filename: str, size: int) -> pygame.font.Font:
+def load_font(filename: str | pathlib.Path, size: int) -> pygame.font.Font:
     """Load font from file"""
-    fullpath = os.path.join(FONTS_DIR, filename)
+    fullpath = FONTS_DIR / filename
     logging.info(f"Load font '{fullpath}' with size {size}")
     return pygame.font.Font(fullpath, size)
 
 
 @functools.lru_cache(256)
-def load_image(filename: str) -> pygame.Surface:
+def load_image(filename: str | pathlib.Path) -> pygame.Surface:
     """Load an image from filesystem"""
-    fullpath = os.path.join(IMAGES_DIR, filename)
+    fullpath = IMAGES_DIR / filename
     logging.info(f"Load image '{fullpath}'")
     return pygame.image.load(fullpath).convert_alpha()
 
 
-def load_sound(filename: str) -> pygame.mixer.Sound:
+def load_sound(filename: str | pathlib.Path) -> pygame.mixer.Sound:
     """Load sound from filesystem"""
-    fullpath = os.path.join(SOUNDS_DIR, filename)
+    fullpath = SOUNDS_DIR / filename
     logging.info(f"Load sound '{fullpath}'")
     return pygame.mixer.Sound(fullpath)
 
@@ -79,31 +79,49 @@ class PlayerAnimationHandler:
         self._state_direction_images[PlayerState.IDLE.value] = [
             [
                 load_image(filename)
-                for filename in [f"player/idle/idle-left-{i+1}.png" for i in range(4)]
+                for filename in [
+                    pathlib.Path("player", "idle", f"idle-left-{i+1}.png")
+                    for i in range(4)
+                ]
             ],
             [
                 load_image(filename)
-                for filename in [f"player/idle/idle-right-{i+1}.png" for i in range(4)]
+                for filename in [
+                    pathlib.Path("player", "idle", f"idle-right-{i+1}.png")
+                    for i in range(4)
+                ]
             ],
         ]
         self._state_direction_images[PlayerState.RUN.value] = [
             [
                 load_image(filename)
-                for filename in [f"player/run/run-left-{i+1}.png" for i in range(8)]
+                for filename in [
+                    pathlib.Path("player", "run", f"run-left-{i+1}.png")
+                    for i in range(8)
+                ]
             ],
             [
                 load_image(filename)
-                for filename in [f"player/run/run-right-{i+1}.png" for i in range(8)]
+                for filename in [
+                    pathlib.Path("player", "run", f"run-right-{i+1}.png")
+                    for i in range(8)
+                ]
             ],
         ]
         self._state_direction_images[PlayerState.JUMP.value] = [
             [
                 load_image(filename)
-                for filename in [f"player/jump/jump-left-{i+1}.png" for i in range(4)]
+                for filename in [
+                    pathlib.Path("player", "jump", f"jump-left-{i + 1}.png")
+                    for i in range(4)
+                ]
             ],
             [
                 load_image(filename)
-                for filename in [f"player/jump/jump-right-{i+1}.png" for i in range(4)]
+                for filename in [
+                    pathlib.Path("player", "jump", f"jump-right-{i + 1}.png")
+                    for i in range(4)
+                ]
             ],
         ]
         self._state = state
