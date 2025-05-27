@@ -5,7 +5,7 @@ import pygame
 from src.core import Scene
 
 
-from core import Scene
+
 
 
 class LevelScene(Scene):
