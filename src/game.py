@@ -3,6 +3,7 @@ import queue
 
 import pygame
 
+from src.core import Scene
 from src.scenes.locale_selection_scene import LocaleSelectionScene
 from src.settings import FPS, GAME_NAME, LOCALES, LOGS_FILE, WINDOW_SIZE
 
@@ -21,7 +22,7 @@ class Game:
         self._screen = pygame.display.set_mode(WINDOW_SIZE)
         pygame.display.set_caption(GAME_NAME)
         self._scene_queue = queue.Queue()
-        self._scene = LocaleSelectionScene(LOCALES, self._scene_queue)
+        self._scene: Scene = LocaleSelectionScene(LOCALES, self._scene_queue)
         self._clock = pygame.time.Clock()
 
     def run(self):
