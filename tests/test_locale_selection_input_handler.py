@@ -80,7 +80,7 @@ def test_on_enter_input_posts_to_scene_queue(
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": key})]
     mocker.patch("pygame.event.get", return_value=mock_ret)
     mocker.patch(
-        "scenes.locale_selection_scene.MenuScene"
+        "src.scenes.locale_selection_scene.MenuScene"
     )  # mock MenuScene creation because it requires pygame init
 
     assert tested._scene_queue.empty(), "scene_queue is empty"

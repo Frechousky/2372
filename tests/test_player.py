@@ -8,7 +8,7 @@ from src.graphics import Direction, PlayerSprite, PlayerState
 def player_animation_handler_mocker(mocker):
     mocker.patch("src.graphics.PlayerAnimationHandler.__init__", return_value=None)
     mocker.patch(
-        "graphics.PlayerAnimationHandler.image",
+        "src.graphics.PlayerAnimationHandler.image",
         return_value=pygame.surface.Surface(size=(32, 32)),
     )
     mocker.patch("src.graphics.PlayerAnimationHandler.update", return_value=None)
