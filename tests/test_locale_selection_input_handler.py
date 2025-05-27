@@ -4,8 +4,8 @@ import i18n
 import pygame
 import pytest
 
-from core import SelectionViewModel
-from scenes.locale_selection_scene import LocaleSelectionInputHandler
+from src.core import SelectionViewModel
+from src.scenes.locale_selection_scene import LocaleSelectionInputHandler
 
 LOCALES = ["en", "fr", "de"]
 CURSOR_POS_INIT = 1
@@ -59,7 +59,7 @@ def test_on_enter_input_inits_i18n(
 ):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": key})]
     mocker.patch("pygame.event.get", return_value=mock_ret)
-    mocker.patch("scenes.locale_selection_scene.MenuScene")
+    mocker.patch("src.scenes.locale_selection_scene.MenuScene")
     i18n.set("locale", "en")
 
     assert (

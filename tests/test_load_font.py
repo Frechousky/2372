@@ -1,8 +1,8 @@
 import pygame
 import pytest
 
-from graphics import load_font
-from settings import BLANKA_FONT
+from src.graphics import load_font
+from src.settings import BLANKA_FONT
 
 
 @pytest.fixture

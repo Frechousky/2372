@@ -1,8 +1,8 @@
 import pygame
 import pytest
 
-from graphics import load_sound
-from settings import CLICK_SOUND
+from src.graphics import load_sound
+from src.settings import CLICK_SOUND
 
 
 @pytest.fixture

@@ -6,7 +6,7 @@ from typing import List
 
 import pygame
 
-from settings import FONTS_DIR, IMAGES_DIR, SOUNDS_DIR
+from src.settings import FONTS_DIR, IMAGES_DIR, SOUNDS_DIR
 
 
 def load_font(filename: str, size: int) -> pygame.font.Font:

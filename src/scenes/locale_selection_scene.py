@@ -3,10 +3,10 @@ from typing import List
 
 import pygame
 
-from core import InputHandler, Renderer, Scene, SelectionViewModel
-from graphics import Sprite, load_image
-from scenes.menu_scene import MenuScene
-from settings import WINDOW_SIZE, init_i18n
+from src.core import InputHandler, Renderer, Scene, SelectionViewModel
+from src.graphics import Sprite, load_image
+from src.scenes.menu_scene import MenuScene
+from src.settings import WINDOW_SIZE, init_i18n
 
 
 class LocaleSelectionInputHandler(InputHandler):

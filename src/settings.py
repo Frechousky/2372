@@ -12,7 +12,7 @@ FPS = 60
 LOCALES = ["fr", "en"]
 
 # directories
-ROOT_DIR = os.getcwd()
+ROOT_DIR = os.path.join(os.path.dirname(__file__), "..")
 FONTS_DIR = os.path.join(ROOT_DIR, "assets", "fonts")
 I18N_DIR = os.path.join(ROOT_DIR, "assets", "i18n")
 IMAGES_DIR = os.path.join(ROOT_DIR, "assets", "images")

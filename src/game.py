@@ -3,8 +3,8 @@ import queue
 
 import pygame
 
-from scenes.locale_selection_scene import LocaleSelectionScene
-from settings import FPS, GAME_NAME, LOCALES, LOGS_FILE, WINDOW_SIZE
+from src.scenes.locale_selection_scene import LocaleSelectionScene
+from src.settings import FPS, GAME_NAME, LOCALES, LOGS_FILE, WINDOW_SIZE
 
 
 class Game:
@@ -34,8 +34,3 @@ class Game:
             self._scene.handle_inputs()
             self._scene.update(dt)
             self._scene.render(self._screen)
-
-
-if __name__ == "__main__":
-    game = Game()
-    game.run()

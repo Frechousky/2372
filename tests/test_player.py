@@ -1,17 +1,17 @@
 import pygame
 import pytest
 
-from graphics import Direction, PlayerSprite, PlayerState
+from src.graphics import Direction, PlayerSprite, PlayerState
 
 
 @pytest.fixture
 def player_animation_handler_mocker(mocker):
-    mocker.patch("graphics.PlayerAnimationHandler.__init__", return_value=None)
+    mocker.patch("src.graphics.PlayerAnimationHandler.__init__", return_value=None)
     mocker.patch(
         "graphics.PlayerAnimationHandler.image",
         return_value=pygame.surface.Surface(size=(32, 32)),
     )
-    mocker.patch("graphics.PlayerAnimationHandler.update", return_value=None)
+    mocker.patch("src.graphics.PlayerAnimationHandler.update", return_value=None)
     return mocker
 
 

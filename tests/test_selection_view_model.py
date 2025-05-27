@@ -2,7 +2,7 @@ from typing import List
 
 import pytest
 
-from core import SelectionViewModel
+from src.core import SelectionViewModel
 
 test_init_data = [
     (0, ["en", "fr", "de"], 0),

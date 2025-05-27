@@ -3,8 +3,8 @@ import queue
 import pygame
 import pytest
 
-from core import SelectionViewModel
-from scenes.menu_scene import MenuInputHandler
+from src.core import SelectionViewModel
+from src.scenes.menu_scene import MenuInputHandler
 
 MENUS = ["menu1"]
 CURSOR_POS_INIT = 0
@@ -24,6 +24,7 @@ def test_on_enter_input_posts_to_scene_queue(
 ):
     mock_ret = [pygame.event.Event(pygame.KEYDOWN, {"key": key})]
     mocker.patch("pygame.event.get", return_value=mock_ret)
+    mocker.patch("src.scenes.menu_scene.LevelScene")
 
     assert tested._scene_queue.empty(), "scene_queue is empty"
 

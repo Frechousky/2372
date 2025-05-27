@@ -3,10 +3,10 @@ import queue
 import i18n
 import pygame
 
-from core import InputHandler, Renderer, Scene, SelectionViewModel
-from graphics import FontSprite
-from scenes.level_scene import LevelScene
-from settings import BLANKA_FONT, GAME_NAME, WINDOW_SIZE
+from src.core import InputHandler, Renderer, Scene, SelectionViewModel
+from src.graphics import FontSprite
+from src.scenes.level_scene import LevelScene
+from src.settings import BLANKA_FONT, GAME_NAME, WINDOW_SIZE
 
 
 class MenuInputHandler(InputHandler):
